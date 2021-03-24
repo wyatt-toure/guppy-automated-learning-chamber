@@ -1,0 +1,42 @@
+---
+title: "GLoW Apparatus Setup"
+date: "Date of last update: `r format(Sys.Date(), '%b %d %Y')`"
+output:
+  bookdown::html_document2:
+    include:
+      highlight: pygments
+    css: styles.css
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+      smooth_scroll: false
+    number_sections: false
+    split_by: section
+    
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = 'docs/apparatus-setup')
+  })
+---
+
+<div class="topnav">
+  <a href="index.html">Home</a>
+   <a class="active"  href="apparatus-setup.html">Apparatus Design</a>
+   <a href="python-code-documentation.html">Python Code Documentation</a>
+  <a href="procedure.html">Procedure</a>
+    <a href="analysis.html">Analysis</a>
+</div>
+
+## Project Background
+
+## Required Equipment
+
+## Tank Design
+
+## Automated Feeder Design
+
+## Raspberry Pi Electronics Setup
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

@@ -1,0 +1,40 @@
+---
+title: "GLoW Experimental Procedure"
+date: "Date of last update: `r format(Sys.Date(), '%b %d %Y')`"
+output:
+  bookdown::html_document2:
+    include:
+      highlight: pygments
+    css: styles.css
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+      smooth_scroll: false
+    number_sections: false
+    split_by: section
+    
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = 'docs/procedure')
+  })
+---
+
+<div class="topnav">
+  <a href="index.html">Home</a>
+   <a href="apparatus-setup.html">Apparatus Design</a>
+   <a href="python-code-documentation.html">Python Code Documentation</a>
+  <a class="active" href="procedure.html">Procedure</a>
+    <a href="analysis.html">Analysis</a>
+</div>
+
+## Training
+
+Female guppies were trained by XYZ.
+
+## Testing
+
+## Data Collection
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
