@@ -101,14 +101,62 @@ a:link {
 /* MAIN CONTAINER */
 
 .main-container {
-    max-width: 940px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 6%;
 }
 
-.col-xs-12.col-sm-8.col-md-9 {
+@media only screen and (min-width: 992px) {
+.col-md-9 {
     width: 65%;
+}  
 }
+
+/* Changing figure caption size */
+p.caption {
+  font-size: 0.95em;
+  color: #555;
+}
+
+caption {
+    color: #555;
+    font-size: 0.95em;
+}
+
+
+/* Changing tabset pill colour */
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #24292e;
+}
+
+/*Title size */
+h1.title {
+    font-size: 25px;
+}
+
+/*Author name */
+p.author-name {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+}
+
+/* Affiliation number */
+.sidenote-number, .affil-mark {
+    position: relative;
+    vertical-align: super;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Affiliation */
+p.author-affil {
+    font-weight: 450;
+    text-align: left;
+}
+
 
 

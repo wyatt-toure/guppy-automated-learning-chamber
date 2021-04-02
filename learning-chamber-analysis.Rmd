@@ -1,6 +1,5 @@
 ---
 title: "Analysis for the Guppy Learning over WiFi (GLoW) Experiment"
-date: "Date of last update: `r format(Sys.Date(), '%b %d %Y')`"
 output:
   bookdown::html_document2:
     include:
@@ -29,6 +28,13 @@ knit: (function(input, ...) {
     <a class="active" href="analysis.html">Analysis</a>
 </div>
 
+<p class="author-name">Beatriz R. Quineche<span class="affil-mark">1*</span>, M. Wyatt Toure<span class="affil-mark">1</span>, Simon M. Reader<span class="affil-mark">1</span></p>
+
+<p class="author-affil"><span class="affil-mark">1</span>McGill University, Department of Biology, 1205 Docteur Penfield, Montreal, Quebec H3A 1B1, Canada</p>
+<p><span class="affil-mark">*</span>Corresponding Author: <br>Beatriz R. Quineche<br> e-mail: <br></p>
+
+Date of last update: `r format(Sys.Date(), '%b %d %Y')`
+
 
 ```{r library-prep, include=FALSE}
 library(lme4)
@@ -50,7 +56,7 @@ library(tidyext)
 
 ```{r data-prep, include=FALSE}
 # Reading in data
-full.data = read.csv('data/learning-chamber-data.csv')
+full.data = read.csv('data/beatriz-master-data_one.csv')
 
 # Setting batch to a factor 
 full.data$batch = as.factor(full.data$batch)
@@ -163,11 +169,11 @@ The association expected to be formed was that the side of the tank that produce
 
 *** 
 
-## Data check
+## Data check {.tabset}
 
-### Checking observations
+### Checking categorical variables
 
-First we want to make sure the data is properly formatted. We will use the `describe_all_cat` function from the package `tidyext` to do so. This will summarise all of our categorical variables. Note I filtered out ID for this table. 
+First we want to make sure the data is properly formatted. We will use the `describe_all_cat` function from the package `tidyext` to do so. This will summarise all of our categorical variables. Note ID was filtered out for this table. 
 
 ```{r data-checking, echo=FALSE}
 # Checking the data 
@@ -183,6 +189,8 @@ binom.test(12, 34)
 
 Of note is that we have slightly, but not significantly (Exact binomial test p = 0.121), more individuals for which the light shone on the right side (65%) versus the left side (35%). All other grouping levels are essentially equal. 
 
+### Checking individual observations
+
 Next we will check the data for individuals. All individuals should have two measures, one for the 'before light' phase and one for the 'after light' phase. 
 
 ```{r data-checking2, echo=FALSE}
@@ -196,8 +204,6 @@ Since we used automated tracking we want to make sure that there are minimal tra
 ```{r data-checking3, echo=FALSE, message=FALSE}
 kable(full.data %>% group_by(id, light.status) %>% summarise(total.time) %>% arrange(total.time), caption = "Checking tracking data errors")
 ```
-
-We see that some of the values are below 175 so these will have to be checked. 
 
 ***
 
@@ -258,7 +264,7 @@ time.plot = ggplot(full.data,
   geom_line(aes(group = interaction(id)), alpha = 0.2) +
   scale_x_discrete(labels = testing.data.x.axis.labels) +
   stat_summary(geom = 'errorbar', fun.data = 'mean_se', position = position_dodge(width=0), width = 0.1) + 
-  geom_hline(yintercept = -5.89, linetype = 'dashed', alpha = 0.4)
+  geom_hline(yintercept = -5.92, linetype = 'dashed', alpha = 0.4)
 
 time.plot
 ```
@@ -317,7 +323,7 @@ latency.plot = ggplot(full.data,
   geom_line(aes(group = id), alpha = 0.2) +
   scale_x_discrete(labels = testing.data.x.axis.labels) +
   stat_summary(geom = 'errorbar', fun.data = 'mean_se', position = position_dodge(width=0), width = 0.1) + 
-  geom_hline(yintercept = -8.07, linetype = 'dashed', alpha = 0.5)
+  geom_hline(yintercept = -9.94, linetype = 'dashed', alpha = 0.5)
 
 latency.plot
 ```
@@ -354,7 +360,7 @@ tidy_visits.model[1:2,3] <- table.row.name.vec
 knitr::kable(tidy_visits.model[1:2,] %>% dplyr::select(-group, -effect)%>% mutate_if(is.numeric, round, digits = 3), caption = "Visits model table caption")
 ```
 
-There is a significant increase in the proportion of visits to the rewarded feeder after the light turns on (p = 0.039). Guppies go from making 44.4% of their visits to the rewarded feeder before the light shines to making 56.6% of their visits being to the rewarded feeder after the light shines, an increase of 12.2%. 
+There is a non-significant increase in the proportion of visits to the rewarded feeder after the light turns on. Guppies go from making 47% of their visits to the rewarded feeder before the light shines to making 57% of their visits being to the rewarded feeder after the light shines, an increase of 10%. 
 
 </br>
 
@@ -379,7 +385,7 @@ visits.plot = ggplot(full.data,
   geom_line(aes(group = id), alpha = 0.2) +
   scale_x_discrete(labels = testing.data.x.axis.labels) + 
   stat_summary(geom = 'errorbar', fun.data = 'mean_se', position = position_dodge(width=0), width = 0.1) +
-  geom_hline(yintercept = 0.433, linetype = 'dashed', alpha = 0.5)
+  geom_hline(yintercept = 0.461, linetype = 'dashed', alpha = 0.5)
 
 visits.plot
 ```
@@ -388,11 +394,9 @@ visits.plot
 
 ## Main findings
 
-We see that while the effect of the light turning is only significant for the proportion of visits to the feeder, the other two preference metrics (time spent on the side of the tank where the light shone and the latency to the rewarded feeder) all have an effect size that is in the direction consistent with the hypothesis that guppies can learn a food-light association in the automated chamber.  
-
 1) Guppies non-significantly increase the amount of time they spend on the side of the tank where the light shone (Figure 4A)
 2) Guppies non-significantly increase the speed at which they visit the rewarded feeder over the unrewarded feeder after the light shines (Figure 4B)
-3) Guppies significantly increase their proportion of visits to the rewarded feeder after the light shines (Figure 4C)
+3) Guppies non-significantly increase their proportion of visits to the rewarded feeder after the light shines (Figure 4C)
 
 ```{r full-3-panel-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Data are means ± SE. Dashed lines represent mean values for the pre-light baseline of the behaviour being displayed. Squares represent pre-light baselines and circles represent post-light measures. (A) Plot for rewarding side preference in seconds (B) Plot for rewarding feeder latency bias (C) Plot for proportion of visits to the rewarding feeder", fig.id="full-3-panel-plot"}
 library(patchwork)
@@ -422,6 +426,12 @@ visits.plot = visits.plot + theme(legend.position = "none",
         plot.tag = element_text(hjust = -3.65, vjust = 3.7))
 ```
 
+We see that while the effect of the light turning is not significant for any one preference measure, they all have an effect size that is in the direction consistent with the hypothesis that guppies can learn a food-light association in the automated chamber.  
+
+Our sample of guppies has a high amount of variation leading to estimates with wide confidence intervals. Moreover, our sample is relatively small so the decrease in estimate precision due to sampling error is amplified. There could be several reasons for this variation. Given that we did not explicitly quantify performance during training it may be that guppies that did not perform any of the behaviours suggesting learning of the association did not feed as much as guppies which did, leading to a difference in performance on the test trial. If we assume guppies did receive similar reinforcement, there may still be variation due to individual differences in the expression of learned behaviour. 
+
+Individual guppies may express learning in different manners. Some may choose to spend more time on the side with the feeder while others may choose to make more visits to the feeder. In this case, the strongest and most common responses are more likely to produce statistically significant estimates as they will have less variance. Latency we might expect to be a particularly noisy measure because it depends on where an individual was in the tank when the light came on. By chance, individuals may have been further away or closer to the feeder when the light came on which could produce additional variation on the latency metric. The low precision on the estimate of the effect of light status on time spent on the rewarding side of the tank may be due to side biases. While non-significant, guppies that had the light shine on the right side of the tank increased their preference for the right side of the tank more than the guppies that had the light shine on the left side of the tank increased their preference for the left side of the tank. Problematically this could be an artefact of sample size—there were nearly double the guppies for which the light shone on the right side of the tank versus the left (11 on the right vs 6 on the left). 
+
 
 *** 
 
@@ -448,6 +458,7 @@ ggplot(full.data,
   geom_point() + 
   facet_wrap(~light.side, labeller = labeller(light.side = facet.labels)) +
     stat_summary(geom = 'point', fun = 'mean', size = 4) + 
+  stat_summary(geom = 'errorbar', fun.data = 'mean_se', position = position_dodge(width=0), width = 0.1) +
   geom_line(aes(group = id), color = 'grey', alpha = 0.3) +
   geom_hline(yintercept = 0, linetype = 'dashed', alpha = 0.3) +
   ylab('Right side bias') +
@@ -459,6 +470,8 @@ ggplot(full.data,
 ```
 
 ***
+
+</br>
 
 ## Tools used and References
 
