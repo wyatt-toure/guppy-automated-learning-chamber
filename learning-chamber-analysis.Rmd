@@ -189,6 +189,8 @@ binom.test(12, 34)
 
 Of note is that we have slightly, but not significantly (Exact binomial test p = 0.121), more individuals for which the light shone on the right side (65%) versus the left side (35%). All other grouping levels are essentially equal. 
 
+***
+
 ### Checking individual observations
 
 Next we will check the data for individuals. All individuals should have two measures, one for the 'before light' phase and one for the 'after light' phase. 
@@ -196,6 +198,8 @@ Next we will check the data for individuals. All individuals should have two mea
 ```{r data-checking2, echo=FALSE}
 kable(describe_all_cat(full.data) %>% filter(Variable == 'id'), caption = "ID data check table caption")
 ```
+
+***
 
 ### Checking total time values
 
@@ -209,6 +213,8 @@ kable(full.data %>% group_by(id, light.status) %>% summarise(total.time) %>% arr
 
 ## Models
 
+We analysed the data using linear mixed effect and generalized linear mixed effect models with the `lmer()` and `glmer()` functions from `lme4` package. P-values and effective degrees of freedom were obtained using the `lmerTest` package. Model residuals were checked they met distributional assumptions with the `DHARMa` package, you can click the ‘See Model Residuals’ button below the model formulas to see the residual diagnostic plots produced by `DHARMa` for that particular model.
+
 ### Model 1 - Time on the rewarded side
 
 To determine whether individuals increase their time spent on the side of the tank the light shone from, we fit a linear mixed effects model with fixed effect of light status (before or after) as well as a random effect of individual id. Our response variable, 'rewarding side preference', is the amount of time a guppy spent on the side which the light shone from subtracted by the time spent on the other side of the tank. This model asks whether the preference for the rewarding side of the tank changed between baseline and test and whether this differs with rewarded object colour. 
@@ -218,6 +224,16 @@ time.model =
   lmer(rewarding.side.preference ~ light.status + (1 | id), 
      data = full.data) 
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Model1"> See Model 1 Residuals </button>  
+<div id="Model1" class="collapse">  
+
+```{r model-1-residuals, echo=FALSE}
+simulationOutput <- simulateResiduals(fittedModel = time.model)
+plot(simulationOutput)
+```
+
+</div>
 
 ```{r tidy-main-model, echo=FALSE}
 # Setting table row names
@@ -281,6 +297,16 @@ latency.model =
                        data = full.data)
 ```
 
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Model2"> See Model 2 Residuals </button>  
+<div id="Model2" class="collapse">  
+
+```{r model-2-residuals, echo=FALSE}
+simulationOutput <- simulateResiduals(fittedModel = latency.model)
+plot(simulationOutput)
+```
+
+</div>
+
 ```{r tidy-latency-model, echo=FALSE}
 tidy_latency.model = broom.mixed::tidy(latency.model)
 
@@ -339,6 +365,16 @@ visits.model =
   glmer(cbind(rewarding.feeder.visits,unrewarding.feeder.visits) ~ light.status  + (1 | id), 
         data = full.data, family = 'binomial')
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Model3"> See Model 3 Residuals </button>  
+<div id="Model3" class="collapse">  
+
+```{r model-3-residuals, echo=FALSE}
+simulationOutput <- simulateResiduals(fittedModel = visits.model)
+plot(simulationOutput)
+```
+
+</div>
 
 ```{r tidy-visits-model, echo=FALSE}
 table.row.name.vec = c("Intercept", "Light status")
@@ -437,11 +473,13 @@ Individual guppies may express learning in different manners. Some may choose to
 
 ## Follow up data exploration
 
+Following the results for our *a priori* hypotheses we conducted some post-hoc explorations into the data which are detailed in the sections below. 
+
 ### Side bias 
 
 From Simon: *"I'd suggest also calculating time on left - right, and plotting against side illuminated - this will help to illustrate any side bias"*.
 
-There does not appear to be a consistent side bias either way. For the 'light on the left' guppies there appears to be a slight bias but this may be an artefact of sample size, there are 6 guppies for which the light shone on the left while there are almost double the guppies for which the light shone on the right (11 guppies). Investigating this in a model reveals no significant effects. 
+There is not a statistically clear side bias either way. For the 'light on the left' guppies there appears to be a slight bias but this may be an artefact of sample size (the confidence interval around the mean is very wide), there are 6 guppies for which the light shone on the left while there are almost double the guppies for which the light shone on the right (11 guppies). Investigating this in a model reveals no significant effects. 
 
 ```{r side-bias-plot, echo=FALSE}
 facet.labels = c("Light on left", "Light on right")

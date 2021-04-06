@@ -1,6 +1,5 @@
 ---
 title: "GLoW Apparatus Setup"
-date: "Date of last update: `r format(Sys.Date(), '%b %d %Y')`"
 output:
   bookdown::html_document2:
     include:
@@ -29,7 +28,9 @@ knit: (function(input, ...) {
     <a href="analysis.html">Analysis</a>
 </div>
 
-## Project Background
+## Overview
+
+The aim of GLoW is to create an XYZ that can ABC easy as 123.
 
 ## Required Equipment
 

@@ -1,6 +1,5 @@
 ---
 title: "GLoW Experimental Procedure"
-date: "Date of last update: `r format(Sys.Date(), '%b %d %Y')`"
 output:
   bookdown::html_document2:
     include:
