@@ -28,7 +28,23 @@ knit: (function(input, ...) {
     <a href="analysis.html">Analysis</a>
 </div>
 
+Here we provide the Python code required to operate the automated learning chamber and explain what each section of the code does. The full raw Python code can be found in the [main.py]() file. 
+
 ## Required imports
+
+There are 6 Python packages that are necessary to import for this project.
+
+`time` is imported in order to use the `sleep()` function to pause between certain script commans. 
+
+`picamera` is imported so that we can use functions which allow us to control the Raspberry Pi camera.
+
+`datetime` is imported so that XYZ.
+
+`pigpio` is imported for XYZ. 
+
+`RPi.GPIO` is imported to XYZ. 
+
+`random`is imported for XYZ. 
 
 ```{r add-reticulate, include=FALSE}
 library(reticulate)
@@ -47,7 +63,7 @@ from random import randrange
 
 ## Feeder control
 
-Defining the `feeder_activate` function.
+In the following chunk of code we are defining the `feeder_activate` function.
 
 ```{python, eval=FALSE}
 def feeder_activate(rand_number):
@@ -95,6 +111,10 @@ def feeder_activate(rand_number):
 ```
 
 ## Camera settings
+
+Here we will configure the dimensions and XYZ of the recording from the Raspberry Pi camera. 
+
+We start with the line `print("Welcome to the automated chamber!")` to indicate that the script has started. Next, `camera = PiCamera()` initializes a PiCamera instance and sets it equal to `camera`. We then set the resolution, rotation, and ISO of the camera. 
 
 ```{python, eval=FALSE}
 print("Welcome to the automated chamber!")

@@ -34,9 +34,32 @@ The aim of GLoW is to create an XYZ that can ABC easy as 123.
 
 ## Required Equipment
 
+- Raspberry Pi 4
+- Raspberry Pi camera v2
+- Raspberry Pi camera ribbon cable extension
+- Male to female jumper cables
+- Female to female jumper cables
+- LED strip lights
+- Breadboard 
+- MOSFETS
+- Ring feeders
+- Servo motors (TowerPro used here)
+
 ## Tank Design
 
+The tank for the conditioning chamber was a single 5-gallon glass tank (l 20 x  L 40 x  h 25 cm). The tank was fitted with white gravel, a white aquarium plant, a thermometer, a heater and a sponge filter. The tank was also fitted with white corrugated plastic walls to improve the contrast between guppies and the background of the tank so that guppy positional data could be collected with automated tracking. If behaviour is being recorded manually then this is optional. 
+
+At both lengthwise ends of the tank were custom-made automated feeders and LED strip lights wrapped around a plastic board. Each automated feeder was placed above a black feeding ring of 5 cm diameter so that the food delivered to one side of the tank would not drift around the tank. White walls covered three sides of the tank, leaving 5 cm uncovered near the top of the tank for the placement of feeding rings. The tank design for our automated chamber is depicted in Figure 1. A Raspberry Pi 4 equipped with a Raspberry Pi 4 camera v2 was positioned to face the side of the tank so it captured the full length of the tank. 
+
 ## Automated Feeder Design
+
+Each feeder was made out of a 1-liter plastic bottle, a 10 cm long plastic straw and a servo motor (Tower Pro SG90). 
+
+The bottles, which would make up the body of the feeder, were cut at about 15 cm from their top, discarding the bottom part. A small rectangular section was then cut out 5 cm below that initial cut so that a servo motor could fit through it. A 5 mm hole was made at one end of the straw so we could connect the latter to the wing of a servo motor with a 2 by 8 mm machine screw. The straw was positioned so that a length of 3 cm would be just outside the mouth of the bottle. Electrical tape was then used to cover the empty space around the tip of the straw coming out of the bottle.  Finally, the feeder was filled to about 5 cm with crushed food flakes (Tetramin).
+
+Once activated via a Python script, the servo motor would move its wing up and down in three steps, moving the straw and pumping the feeder to release food into the tank through the two holes of the pen. Feeders were tested to make sure that flakes remained dry and did not absorb humidity when left in the set up for long periods of time (over 7 days). The consistency of the feeders was also verified to ensure they would pump the same amount of food each time they were activated. Lastly, the amount of food delivered by the two feeders was also verified to be the same across both feeders to avoid side biases in reinforcement.
+
+
 
 ## Raspberry Pi Electronics Setup
 

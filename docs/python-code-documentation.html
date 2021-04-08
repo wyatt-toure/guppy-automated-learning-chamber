@@ -282,8 +282,16 @@ div.tocify {
 <a href="procedure.html">Procedure</a>
 <a href="analysis.html">Analysis</a></p>
 </div>
+<p>Here we provide the Python code required to operate the automated learning chamber and explain what each section of the code does. The full raw Python code can be found in the <a href>main.py</a> file.</p>
 <div id="required-imports" class="section level2">
 <h2>Required imports</h2>
+<p>There are 6 Python packages that are necessary to import for this project.</p>
+<p><code>time</code> is imported in order to use the <code>sleep()</code> function to pause between certain script commans.</p>
+<p><code>picamera</code> is imported so that we can use functions which allow us to control the Raspberry Pi camera.</p>
+<p><code>datetime</code> is imported so that XYZ.</p>
+<p><code>pigpio</code> is imported for XYZ.</p>
+<p><code>RPi.GPIO</code> is imported to XYZ.</p>
+<p><code>random</code>is imported for XYZ.</p>
 <pre class="python"><code>import time
 from picamera import PiCamera
 import datetime as dt
@@ -294,7 +302,7 @@ from random import randrange</code></pre>
 </div>
 <div id="feeder-control" class="section level2">
 <h2>Feeder control</h2>
-<p>Defining the <code>feeder_activate</code> function.</p>
+<p>In the following chunk of code we are defining the <code>feeder_activate</code> function.</p>
 <pre class="python"><code>def feeder_activate(rand_number):
     &quot;&quot;&quot; &quot; &quot; 
     takes as input a random int either 0 or 1
@@ -340,6 +348,8 @@ from random import randrange</code></pre>
 </div>
 <div id="camera-settings" class="section level2">
 <h2>Camera settings</h2>
+<p>Here we will configure the dimensions and XYZ of the recording from the Raspberry Pi camera.</p>
+<p>We start with the line <code>print(&quot;Welcome to the automated chamber!&quot;)</code> to indicate that the script has started. Next, <code>camera = PiCamera()</code> initializes a PiCamera instance and sets it equal to <code>camera</code>. We then set the resolution, rotation, and ISO of the camera.</p>
 <pre class="python"><code>print(&quot;Welcome to the automated chamber!&quot;)
 camera = PiCamera()
 print(&quot;Passed PiCamera() line&quot;)
