@@ -41,13 +41,13 @@ There are 6 Python packages that are necessary to import for this project.
 
 `picamera` is imported so that we can use functions which allow us to control the Raspberry Pi camera.
 
-`datetime` is imported so that XYZ.
+`datetime` is imported so that we can display date and time stamps on the experimental footage.
 
-`pigpio` is imported for XYZ. 
+`pigpio` is imported for access to functions that allow us to control the LED lights
 
-`RPi.GPIO` is imported to XYZ. 
+`RPi.GPIO` is imported for access to functions that allow us to control the Raspberry Pi GPIO pings
 
-`random`is imported for XYZ. 
+`random`is imported to create random numbers to randomly decide which side of the tank will have the light shine and food delivered. 
 
 ```{r add-reticulate, include=FALSE}
 library(reticulate)
