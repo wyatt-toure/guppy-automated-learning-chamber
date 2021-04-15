@@ -58,8 +58,8 @@ Once activated via a Python script, the servo motor would move its wing up and d
 
 ## Raspberry Pi Electronics Setup
 
-The Raspberry Pi wiring is depicted in Figure \@ref(fig:GLoW-wire-diagram).
+The Raspberry Pi wiring is depicted in Figure \@ref(fig:GLoW-wire-diagram). 
 
-```{r GLoW-wire-diagram, echo=FALSE, out.width="50%", fig.cap="Wire diagram for GLoW"}
-
+```{r GLoW-wire-diagram, echo=FALSE, out.width="100%", fig.cap="Wire diagram for GLoW"}
+knitr::include_graphics("images/raspberry-pi-wiring-diagram.svg")
 ```
