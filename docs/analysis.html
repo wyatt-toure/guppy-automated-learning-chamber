@@ -293,12 +293,12 @@ Beatriz R. Quineche<span class="affil-mark">1*</span>, M. Wyatt Toure<span class
 <p>
 <span class="affil-mark">*</span>Corresponding Author: <br>Beatriz R. Quineche<br> e-mail: <br>
 </p>
-<p>Date of last update: Apr 14 2021</p>
+<p>Date of last update: Apr 16 2021</p>
 <hr />
 <div id="brief-overview" class="section level2">
 <h2>Brief Overview</h2>
-<p>This is the analysis for an experiment conducted by Beatriz Quineche as part of an Honour’s thesis in the Reader Laboratory at McGill University. The data and R code to produce this analysis are in the <a href>learning-chamber-data.csv</a> file and the <a href>learning-chamber-analysis-script.Rmd</a> file respectively. A list of variables and their descriptions is given in the metadata section of the <a href>README</a> file. These files can all be accessed at the <a href>GitHub repository for this project</a>.</p>
-<p>The goal of this project was to conduct of a proof of concept experiment to see the feasibility of training guppies in a conditioning chamber which consisted of a tank supplemented with raspberry pi controlled lights and feeders as well as a raspberry pi camera. Guppies were given a simple classical conditioning task. Four times a day for X consecutive days a light would briefly illuminate at an LED value of [LED value of the green light] for Y seconds. Z seconds later, food was delivered from a servo-powered feeder that was hung above the tank (see <a href="apparatus-setup.html">Apparatus Design</a>). This resulted in a total of 16 reinforced trials being conducted in the span of X days. On the fifth day guppies were food deprived to increase food motivation and thus increase the likelihood of eliciting a demonstrable behavioural effect for the probe trial which occurred on the sixth day.</p>
+<p>This is the analysis for an experiment conducted by Beatriz Quineche as part of an Honour’s thesis in the Reader Laboratory at McGill University. The data and R code to produce this analysis are in the <a href="https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/data/beatriz-master-data_one.csv">beatriz-master-data_one.csv.csv</a> file and the <a href="https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/learning-chamber-analysis.Rmd">learning-chamber-analysis.Rmd</a> file respectively. A list of variables and their descriptions is given in the metadata section of the <a href>README</a> file. These files can all be accessed at the <a href="https://github.com/wyatt-toure/guppy-automated-learning-chamber">GitHub repository for this project</a>.</p>
+<p>The goal of this project was to conduct of a proof of concept experiment to see the feasibility of training guppies in a conditioning chamber which consisted of a tank supplemented with raspberry pi controlled lights and feeders as well as a raspberry pi camera. Guppies were given a simple classical conditioning task. Four times a day for three consecutive days a light would briefly illuminate for five seconds after which the light turned off and food was delivered from a servo-powered feeder that was hung above the tank (see <a href="apparatus-setup.html">Apparatus Design</a>). This resulted in a total of 12 reinforced trials being conducted in the span of three days. On the fifth day guppies were food deprived to increase food motivation and thus increase the likelihood of eliciting a demonstrable behavioural effect for the probe trial which occurred on the sixth day.</p>
 <p>The association expected to be formed was that the side of the tank that produces a light predicts which feeder will have food delivered to it. Guppies were expected to demonstrate evidence of successfully learning the association by behaving in the following manner after the light turned on: <strong>1)</strong> increasing the amount of time spent in the side of the tank where the feeder was located, <strong>2)</strong> increasing the number of visits (coming within 2 body lengths) to the rewarded feeder, and/or <strong>3)</strong> approaching the rewarded feeder quicker than the unrewarded feeder.</p>
 <hr />
 </div>
@@ -691,9 +691,10 @@ Beatriz R. Quineche<span class="affil-mark">1*</span>, M. Wyatt Toure<span class
 <div id="model-1---time-on-the-rewarded-side" class="section level3">
 <h3>Model 1 - Time on the rewarded side</h3>
 <p>To determine whether individuals increase their time spent on the side of the tank the light shone from, we fit a linear mixed effects model with fixed effect of light status (before or after) as well as a random effect of individual id. Our response variable, ‘rewarding side preference’, is the amount of time a guppy spent on the side which the light shone from subtracted by the time spent on the other side of the tank. This model asks whether the preference for the rewarding side of the tank changed between baseline and test and whether this differs with rewarded object colour.</p>
-<pre class="r"><code>time.model = 
-  lmer(rewarding.side.preference ~ light.status + (1 | id), 
-     data = full.data) </code></pre>
+<pre class="r"><code>time.model &lt;-
+  lmer(rewarding.side.preference ~ light.status + (1 | id),
+    data = full.data
+  )</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#Model1">
 See Model 1 Residuals
 </button>
@@ -748,9 +749,10 @@ Figure 1: Data are means ± SE. Lines connect individuals across light periods. 
 <div id="model-2---latency-to-the-rewarded-side" class="section level3">
 <h3>Model 2 - Latency to the rewarded side</h3>
 <p>To determine whether individuals increase the speed at which they come within two body lengths of the rewarded feeder relative to the unrewarded feeder after the light turns on we fit a linear mixed effects model. Our response variable <code>latency.difference</code> is the latency to approach the unrewarded feeder subtracted by the latency to approach the rewarded feeder. Positive values indicate that the rewarded feeder was approached quicker than the unrewarded feeder. A value of 0 would indicate both feeders were reached at the same time (in this case this means both feeders were never approached and thus both values are given a max score of 180 as it is impossible for guppies to be in two places at once). The fixed effect is the light status which is either ‘before the light turns on’ or ‘after the light turns on’. We additionally fit a random effect of individual id to account for repeated measures.</p>
-<pre class="r"><code>latency.model = 
-  lmer(latency.difference ~ light.status + (1 | id), 
-                       data = full.data)</code></pre>
+<pre class="r"><code>latency.model &lt;-
+  lmer(latency.difference ~ light.status + (1 | id),
+    data = full.data
+  )</code></pre>
 <pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#Model2">
 See Model 2 Residuals
@@ -806,9 +808,10 @@ Figure 2: Data are means ± SE Bold line connects means across trials.
 <div id="model-3---visits-to-the-rewarded-feeder" class="section level3">
 <h3>Model 3 - Visits to the rewarded feeder</h3>
 <p>To determine whether individual increase the frequency with which they come within two body lengths of the rewarded feder, we fit a binomial generalized linear mixed effects model. Our response variable, denoted by <code>cbind(rewarding.feeder.visits,unrewarding.feeder.visits)</code> is the proportion of visits to the rewarded feeder. This model asks whether the proportion of visits to the rewarded feeder differs between light phases. We fit a random effect of individual id to account for repeated measures.</p>
-<pre class="r"><code>visits.model = 
-  glmer(cbind(rewarding.feeder.visits,unrewarding.feeder.visits) ~ light.status  + (1 | id), 
-        data = full.data, family = &#39;binomial&#39;)</code></pre>
+<pre class="r"><code>visits.model &lt;-
+  glmer(cbind(rewarding.feeder.visits, unrewarding.feeder.visits) ~ light.status + (1 | id),
+    data = full.data, family = &quot;binomial&quot;
+  )</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#Model3">
 See Model 3 Residuals
 </button>
