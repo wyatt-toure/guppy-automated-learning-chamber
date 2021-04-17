@@ -11,9 +11,7 @@ This is the repository for the Guppyy Learning over Wifi (GLoW) project version 
 GLoW is a low-cost Raspberry Pi based fish tank apparatus that allows us to remotely and automatically conduct fish learning experiments. This was particularly useful given that COVID-19 restrictions meant we had extremely limited in person laboratory access. With GLoW one can conduct experiments over Wi-Fi from home. The goal of version 1 of GLoW was to get Trinidadian guppies to pair a light stimulus with a food reward. You can see an example of GLoW in action below. 
 
 <p>
-<video width="60%" height="auto" controls  muted>
-    <source src="https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/docs/static/images/sample-trial.mp4" type="video/mp4">
-</video>
+<img src="images/guppy-learning-chamber-sample-trial.gif" style="display:block; margin: 0 auto;"   width = '50%'>
 </p>
 
 
