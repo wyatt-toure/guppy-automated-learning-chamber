@@ -4,7 +4,9 @@
 <img src="https://github.com/wyatt-toure/automated-learning-chamber-analysis/blob/main/docs/static/images/GLoW-readme-logo.svg" style="display:block; margin: 0 auto;"   width = '50%'>
 </p>
 
-This is the repository for the Guppyy Learning over Wifi (GLoW) project version 1. This project was an Honour's thesis project conducted by Beatriz Qunieche (Fall 2020/Winter 2021) in the Reader laboroatory at McGill University. The repository hosts the materials used to construct the GLoW project site at https://wyatt-toure.github.io/guppy-automated-learning-chamber/. We hope to imrpove GLoW in the future and make the materials as well as data collected from our pilot run of GLoW available to those who want to build something similar for their own purposes
+This is the repository for the Guppyy Learning over Wifi (GLoW) project version 1. This project was an Honour's thesis project conducted by Beatriz Qunieche (Fall 2020/Winter 2021) in the Reader laboroatory at McGill University. The repository hosts the materials used to construct the GLoW project site at https://wyatt-toure.github.io/guppy-automated-learning-chamber/. 
+
+We hope to imrpove GLoW in the future and make the materials as well as data collected from our pilot run of GLoW available to those who want to build something similar for their own purposes
 
 ## Summary
 
