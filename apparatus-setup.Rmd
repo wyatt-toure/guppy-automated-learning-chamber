@@ -27,6 +27,7 @@ knit: (function(input, ...) {
 <a href="analysis.html" style = "float: right;">Analysis</a> 
 <a href="python-code-documentation.html" style = "float: right;">Python Code Documentation</a> 
 <a class="active" href="apparatus-setup.html"style = "float: right;">Apparatus Design</a>
+<a href="manuscript.html" style = "float: right;">Manuscript</a>
 <a href="index.html" style = "float: right;">Home</a>
 </div>
 

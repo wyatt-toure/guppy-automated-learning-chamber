@@ -26,6 +26,7 @@ knit: (function(input, ...) {
     <a class="active" href="analysis.html" style = "float: right;">Analysis</a>
     <a href="python-code-documentation.html" style = "float: right;">Python Code Documentation</a>
     <a href="apparatus-setup.html"style = "float: right;">Apparatus Design</a>
+    <a href="manuscript.html" style = "float: right;">Manuscript</a>
     <a href="index.html" style = "float: right;">Home</a>
 </div>
 
@@ -33,6 +34,7 @@ knit: (function(input, ...) {
 
 <p class="author-affil"><span class="affil-mark">1</span>McGill University, Department of Biology, 1205 Docteur Penfield, Montreal, Quebec H3A 1B1, Canada</p>
 <p><span class="affil-mark">*</span>Corresponding Author: <br>Beatriz R. Quineche<br> e-mail: <br></p>
+
 
 Date of last update: `r format(Sys.Date(), '%b %d %Y')`
 
@@ -491,7 +493,11 @@ visits.plot <- visits.plot + theme(
     plot.tag.position = c(0, 1),
     plot.tag = element_text(hjust = -3.65, vjust = 3.7)
   )
+
+# Saving plot to images directory for manuscript
+ggsave(filename = 'main-result-plot.png', path = 'images/', device='png', dpi=300)
 ```
+
 
 We see that while the effect of the light turning is not significant for any one preference measure, they all have an effect size that is in the direction consistent with the hypothesis that guppies can learn a food-light association in the automated chamber.  
 
@@ -512,7 +518,7 @@ From Simon: *"I'd suggest also calculating time on left - right, and plotting ag
 
 There is not a statistically clear side bias either way. For the 'light on the left' guppies there appears to be a slight bias but this may be an artefact of sample size (the confidence interval around the mean is very wide), there are 6 guppies for which the light shone on the left while there are almost double the guppies for which the light shone on the right (11 guppies). Investigating this in a model reveals no significant effects. 
 
-```{r side-bias-plot, echo=FALSE}
+```{r side-bias-plot, echo=FALSE, message=FALSE}
 facet.labels <- c("Light on left", "Light on right")
 names(facet.labels) <- c("left", "right")
 
@@ -542,6 +548,9 @@ ggplot(
     plot.title = element_text(size = 16, hjust = 0.5)
   ) +
   scale_x_discrete(labels = testing.data.x.axis.labels)
+
+# Saving plot to images directory for manuscript
+ggsave(filename = 'side-bias-plot.png', path = 'images/', device='png', dpi=300)
 ```
 
 ### Time bins
