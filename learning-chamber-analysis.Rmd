@@ -70,12 +70,10 @@ full.data <- full.data %>%
   mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
 
 # Removing NAs (1 fish where light didn't go off)
-
 full.data <- full.data %>%
   drop_na()
 
 # Creating rewarding side time variable
-
 full.data <- full.data %>%
   mutate(
     rewarding.side.time =
@@ -86,7 +84,6 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding side time variable
-
 full.data <- full.data %>%
   mutate(
     unrewarding.side.time =
@@ -97,13 +94,11 @@ full.data <- full.data %>%
   )
 
 # Creating rewarding side preference variable
-
 full.data <- full.data %>%
   mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
 
 
 # Creating rewarding side latency variable
-
 full.data <- full.data %>%
   mutate(
     rewarding.side.latency =
@@ -115,7 +110,6 @@ full.data <- full.data %>%
 
 
 # Creating rewarding feeder time variable
-
 full.data <- full.data %>%
   mutate(
     rewarding.feeder.time =
@@ -126,7 +120,6 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder time variable
-
 full.data <- full.data %>%
   mutate(
     unrewarding.feeder.time =
@@ -137,12 +130,10 @@ full.data <- full.data %>%
   )
 
 # Creating rewarding feeder preference variable
-
 full.data <- full.data %>%
   mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
 
 # Creating rewarding feeder visits variable
-
 full.data <- full.data %>%
   mutate(
     rewarding.feeder.visits =
@@ -153,7 +144,6 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder visits variable
-
 full.data <- full.data %>%
   mutate(
     unrewarding.feeder.visits =
@@ -165,7 +155,6 @@ full.data <- full.data %>%
 
 
 # Creating rewarding feeder latency variable
-
 full.data <- full.data %>%
   mutate(
     rewarding.feeder.latency =
@@ -176,7 +165,6 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder latency variable
-
 full.data <- full.data %>%
   mutate(
     unrewarding.feeder.latency =
@@ -187,12 +175,10 @@ full.data <- full.data %>%
   )
 
 # Creating Change in rewarding feeder latency variable
-
 full.data <- full.data %>%
   mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
 
 # Creating total time variable for data check purposes
-
 full.data <- full.data %>%
   mutate(total.time = left.side.time + right.side.time)
 
@@ -771,12 +757,10 @@ time.bin.data <- time.bin.data %>%
   mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
 
 # Removing NAs (1 fish where light didn't go off)
-
 time.bin.data <- time.bin.data %>%
   drop_na()
 
 # Creating rewarding side time variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     rewarding.side.time =
@@ -787,7 +771,6 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating unrewarding side time variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     unrewarding.side.time =
@@ -798,13 +781,11 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating rewarding side preference variable
-
 time.bin.data <- time.bin.data %>%
   mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
 
 
 # Creating rewarding side latency variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     rewarding.side.latency =
@@ -816,7 +797,6 @@ time.bin.data <- time.bin.data %>%
 
 
 # Creating rewarding feeder time variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     rewarding.feeder.time =
@@ -827,7 +807,6 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating unrewarding feeder time variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     unrewarding.feeder.time =
@@ -838,12 +817,10 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating rewarding feeder preference variable
-
 time.bin.data <- time.bin.data %>%
   mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
 
 # Creating rewarding feeder visits variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     rewarding.feeder.visits =
@@ -854,7 +831,6 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating unrewarding feeder visits variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     unrewarding.feeder.visits =
@@ -866,7 +842,6 @@ time.bin.data <- time.bin.data %>%
 
 
 # Creating rewarding feeder latency variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     rewarding.feeder.latency =
@@ -877,7 +852,6 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating unrewarding feeder latency variable
-
 time.bin.data <- time.bin.data %>%
   mutate(
     unrewarding.feeder.latency =
@@ -888,12 +862,10 @@ time.bin.data <- time.bin.data %>%
   )
 
 # Creating Change in rewarding feeder latency variable
-
 time.bin.data <- time.bin.data %>%
   mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
 
 # Creating total time variable for data check purposes
-
 time.bin.data <- time.bin.data %>%
   mutate(total.time = left.side.time + right.side.time)
 ```
