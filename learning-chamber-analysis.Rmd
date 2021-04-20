@@ -214,8 +214,7 @@ file and the
 [learning-chamber-analysis.Rmd](https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/learning-chamber-analysis.Rmd)
 file respectively. A list of variables and their descriptions is given in the
 metadata section of the [README]() file. These files can all be accessed at the
-[GitHub repository for this
-project](https://github.com/wyatt-toure/guppy-automated-learning-chamber).
+[GitHub repository for this project](https://github.com/wyatt-toure/guppy-automated-learning-chamber).
 
 The goal of this project was to conduct of a proof of concept experiment to see
 the feasibility of training guppies in a conditioning chamber which consisted of
@@ -223,8 +222,7 @@ a tank supplemented with raspberry pi controlled lights and feeders as well as a
 raspberry pi camera. Guppies were given a simple classical conditioning task.
 Four times a day for three consecutive days a light would briefly illuminate for
 five seconds after which the light turned off and food was delivered from a
-servo-powered feeder that was hung above the tank (see [Apparatus
-Design](apparatus-setup.html)). This resulted in a total of 12 reinforced trials
+servo-powered feeder that was hung above the tank (see [Apparatus Design](apparatus-setup.html)). This resulted in a total of 12 reinforced trials
 being conducted in the span of three days. On the fifth day guppies were food
 deprived to increase food motivation and thus increase the likelihood of
 eliciting a demonstrable behavioural effect for the probe trial which occurred
@@ -267,13 +265,16 @@ binom.test(12, 34)
 # No p = 0.1214
 ```
 
-Of note is that we have slightly, but not significantly (Exact binomial test p = 0.121), more individuals for which the light shone on the right side (65%) versus the left side (35%). All other grouping levels are essentially equal. 
+Of note is that we have slightly, but not significantly (Exact binomial test p
+= 0.121), more individuals for which the light shone on the right side (65%)
+versus the left side (35%). All other grouping levels are essentially equal. 
 
 ***
 
 ### Checking individual observations
 
-Next we will check the data for individuals. All individuals should have two measures, one for the 'before light' phase and one for the 'after light' phase. 
+Next we will check the data for individuals. All individuals should have two
+measures, one for the 'before light' phase and one for the 'after light' phase. 
 
 ```{r data-checking2, echo=FALSE}
 kable(describe_all_cat(full.data) %>%
@@ -286,7 +287,10 @@ caption = "ID data check table caption"
 
 ### Checking total time values
 
-Since we used automated tracking we want to make sure that there are minimal tracking errors. We measured the time a guppy was on either the left side or right side of the tank so we can use this to check for any missing data. Since trials lasted 3 minutes these measures should add up to around 180. 
+Since we used automated tracking we want to make sure that there are minimal
+tracking errors. We measured the time a guppy was on either the left side or
+right side of the tank so we can use this to check for any missing data. Since
+trials lasted 3 minutes these measures should add up to around 180.
 
 ```{r data-checking3, echo=FALSE, message=FALSE}
 kable(full.data %>%
@@ -363,7 +367,9 @@ caption = "Time model table caption"
 )
 ```
 
-There is a non-significant effect of light status (p = 0.276). Guppies non-significantly increase their preference for the side with the light after the light has shone by 26.6 seconds. 
+There is a non-significant effect of light status (p = 0.276). Guppies
+non-significantly increase their preference for the side with the light after
+the light has shone by 26.6 seconds. 
 
 </br>
 ```{r rewarding-side-pref-plot, echo=FALSE, fig.align='center', fig.cap="Data are means ± SE. Lines connect individuals across light periods. The dashed line represents the value of the pre-light baseline behavioural measure.", fig.id="rewarding-side-pref-plot", message=FALSE, warning=FALSE}
