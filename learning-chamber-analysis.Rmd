@@ -55,6 +55,7 @@ library(emmeans)
 library(report)
 library(cowplot)
 library(tidyext)
+source("R/rename-lme4-model.R")
 ```
 
 ```{r data-prep, include=FALSE}
@@ -65,93 +66,135 @@ full.data <- read.csv("data/beatriz-master-data_one.csv")
 full.data$batch <- as.factor(full.data$batch)
 
 # Creating time at both feeders variable
-full.data <- full.data %>% mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
+full.data <- full.data %>%
+  mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
 
 # Removing NAs (1 fish where light didn't go off)
 
-full.data <- full.data %>% drop_na()
+full.data <- full.data %>%
+  drop_na()
 
 # Creating rewarding side time variable
 
-full.data <- full.data %>% mutate(rewarding.side.time = (case_when(
-  light.side == "left" ~ (left.side.time),
-  light.side == "right" ~ (right.side.time)
-)))
+full.data <- full.data %>%
+  mutate(
+    rewarding.side.time =
+      case_when(
+        light.side == "left" ~ (left.side.time),
+        light.side == "right" ~ (right.side.time)
+      )
+  )
 
 # Creating unrewarding side time variable
 
-full.data <- full.data %>% mutate(unrewarding.side.time = (case_when(
-  light.side == "left" ~ (right.side.time),
-  light.side == "right" ~ (left.side.time)
-)))
+full.data <- full.data %>%
+  mutate(
+    unrewarding.side.time =
+      case_when(
+        light.side == "left" ~ (right.side.time),
+        light.side == "right" ~ (left.side.time)
+      )
+  )
 
 # Creating rewarding side preference variable
 
-full.data <- full.data %>% mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
+full.data <- full.data %>%
+  mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
 
 
 # Creating rewarding side latency variable
 
-full.data <- full.data %>% mutate(rewarding.side.latency = (case_when(
-  light.side == "left" ~ (left.side.latency),
-  light.side == "right" ~ (right.side.latency)
-)))
+full.data <- full.data %>%
+  mutate(
+    rewarding.side.latency =
+      case_when(
+        light.side == "left" ~ (left.side.latency),
+        light.side == "right" ~ (right.side.latency)
+      )
+  )
 
 
 # Creating rewarding feeder time variable
 
-full.data <- full.data %>% mutate(rewarding.feeder.time = (case_when(
-  light.side == "left" ~ (left.feeder.side.time),
-  light.side == "right" ~ (right.feeder.side.time)
-)))
+full.data <- full.data %>%
+  mutate(
+    rewarding.feeder.time =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.time),
+        light.side == "right" ~ (right.feeder.side.time)
+      )
+  )
 
 # Creating unrewarding feeder time variable
 
-full.data <- full.data %>% mutate(unrewarding.feeder.time = (case_when(
-  light.side == "left" ~ (right.feeder.side.time),
-  light.side == "right" ~ (left.feeder.side.time)
-)))
+full.data <- full.data %>%
+  mutate(
+    unrewarding.feeder.time =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.time),
+        light.side == "right" ~ (left.feeder.side.time)
+      )
+  )
 
 # Creating rewarding feeder preference variable
 
-full.data <- full.data %>% mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
+full.data <- full.data %>%
+  mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
 
 # Creating rewarding feeder visits variable
 
-full.data <- full.data %>% mutate(rewarding.feeder.visits = (case_when(
-  light.side == "left" ~ (left.feeder.side.visits),
-  light.side == "right" ~ (right.feeder.side.visits)
-)))
+full.data <- full.data %>%
+  mutate(
+    rewarding.feeder.visits =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.visits),
+        light.side == "right" ~ (right.feeder.side.visits)
+      )
+  )
 
 # Creating unrewarding feeder visits variable
 
-full.data <- full.data %>% mutate(unrewarding.feeder.visits = (case_when(
-  light.side == "left" ~ (right.feeder.side.visits),
-  light.side == "right" ~ (left.feeder.side.visits)
-)))
+full.data <- full.data %>%
+  mutate(
+    unrewarding.feeder.visits =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.visits),
+        light.side == "right" ~ (left.feeder.side.visits)
+      )
+  )
 
 
 # Creating rewarding feeder latency variable
 
-full.data <- full.data %>% mutate(rewarding.feeder.latency = (case_when(
-  light.side == "left" ~ (left.feeder.side.latency),
-  light.side == "right" ~ (right.feeder.side.latency)
-)))
+full.data <- full.data %>%
+  mutate(
+    rewarding.feeder.latency =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.latency),
+        light.side == "right" ~ (right.feeder.side.latency)
+      )
+  )
 
 # Creating unrewarding feeder latency variable
 
-full.data <- full.data %>% mutate(unrewarding.feeder.latency = (case_when(
-  light.side == "left" ~ (right.feeder.side.latency),
-  light.side == "right" ~ (left.feeder.side.latency)
-)))
+full.data <- full.data %>%
+  mutate(
+    unrewarding.feeder.latency =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.latency),
+        light.side == "right" ~ (left.feeder.side.latency)
+      )
+  )
 
 # Creating Change in rewarding feeder latency variable
 
-full.data <- full.data %>% mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
+full.data <- full.data %>%
+  mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
 
 # Creating total time variable for data check purposes
 
-full.data <- full.data %>% mutate(total.time = left.side.time + right.side.time)
+full.data <- full.data %>%
+  mutate(total.time = left.side.time + right.side.time)
 
 # Setting plot colours
 gray <- "#696667"
@@ -163,11 +206,38 @@ green <- "#59a14f"
 
 ## Brief Overview
 
-This is the analysis for an experiment conducted by Beatriz Quineche as part of an Honour's thesis in the Reader Laboratory at McGill University. The data and R code to produce this analysis are in the [beatriz-master-data_one.csv.csv](https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/data/beatriz-master-data_one.csv) file and the [learning-chamber-analysis.Rmd](https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/learning-chamber-analysis.Rmd) file respectively. A list of variables and their descriptions is given in the metadata section of the [README]() file. These files can all be accessed at the [GitHub repository for this project](https://github.com/wyatt-toure/guppy-automated-learning-chamber). 
+This is the analysis for an experiment conducted by Beatriz Quineche as part of
+an Honour's thesis in the Reader Laboratory at McGill University. The data and R
+code to produce this analysis are in the
+[beatriz-master-data\_one.csv.csv](https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/data/beatriz-master-data_one.csv)
+file and the
+[learning-chamber-analysis.Rmd](https://github.com/wyatt-toure/guppy-automated-learning-chamber/blob/main/learning-chamber-analysis.Rmd)
+file respectively. A list of variables and their descriptions is given in the
+metadata section of the [README]() file. These files can all be accessed at the
+[GitHub repository for this
+project](https://github.com/wyatt-toure/guppy-automated-learning-chamber).
 
-The goal of this project was to conduct of a proof of concept experiment to see the feasibility of training guppies in a conditioning chamber which consisted of a tank supplemented with raspberry pi controlled lights and feeders as well as a raspberry pi camera. Guppies were given a simple classical conditioning task. Four times a day for three consecutive days a light would briefly illuminate for five seconds after which the light turned off and food was delivered from a servo-powered feeder that was hung above the tank (see [Apparatus Design](apparatus-setup.html)). This resulted in a total of 12 reinforced trials being conducted in the span of three days. On the fifth day guppies were food deprived to increase food motivation and thus increase the likelihood of eliciting a demonstrable behavioural effect for the probe trial which occurred on the sixth day. 
+The goal of this project was to conduct of a proof of concept experiment to see
+the feasibility of training guppies in a conditioning chamber which consisted of
+a tank supplemented with raspberry pi controlled lights and feeders as well as a
+raspberry pi camera. Guppies were given a simple classical conditioning task.
+Four times a day for three consecutive days a light would briefly illuminate for
+five seconds after which the light turned off and food was delivered from a
+servo-powered feeder that was hung above the tank (see [Apparatus
+Design](apparatus-setup.html)). This resulted in a total of 12 reinforced trials
+being conducted in the span of three days. On the fifth day guppies were food
+deprived to increase food motivation and thus increase the likelihood of
+eliciting a demonstrable behavioural effect for the probe trial which occurred
+on the sixth day.
 
-The association expected to be formed was that the side of the tank that produces a light predicts which feeder will have food delivered to it. Guppies were expected to demonstrate evidence of successfully learning the association by behaving in the following manner after the light turned on: **1)** increasing the amount of time spent in the side of the tank where the feeder was located, **2)** increasing the number of visits (coming within 2 body lengths) to the rewarded feeder, and/or **3)** approaching the rewarded feeder quicker than the unrewarded feeder.
+The association expected to be formed was that the side of the tank that
+produces a light predicts which feeder will have food delivered to it. Guppies
+were expected to demonstrate evidence of successfully learning the association
+by behaving in the following manner after the light turned on: **1)** increasing
+the amount of time spent in the side of the tank where the feeder was located,
+**2)** increasing the number of visits (coming within 2 body lengths) to the
+rewarded feeder, and/or **3)** approaching the rewarded feeder quicker than the
+unrewarded feeder.
 
 
 
@@ -177,11 +247,17 @@ The association expected to be formed was that the side of the tank that produce
 
 ### Checking categorical variables
 
-First we want to make sure the data is properly formatted. We will use the `describe_all_cat` function from the package `tidyext` to do so. This will summarise all of our categorical variables. Note ID was filtered out for this table. 
+First we want to make sure the data is properly formatted. We will use the
+`describe_all_cat` function from the package `tidyext` to do so. This will
+summarise all of our categorical variables. Note ID was filtered out for this
+table. 
 
 ```{r data-checking, echo=FALSE}
 # Checking the data
-kable(describe_all_cat(full.data) %>% filter(Variable != "id"), caption = "Summary of the frequency of observations for all categorical variables. The levels of each variable are given in the group column and the frequency of observations within each level are given in the frequency column. The relative contribution of a particular level of a variable to the total amount of observations within that variable is givin in the % column.")
+kable(describe_all_cat(full.data) %>%
+  filter(Variable != "id"),
+caption = "Summary of the frequency of observations for all categorical variables. The levels of each variable are given in the group column and the frequency of observations within each level are given in the frequency column. The relative contribution of a particular level of a variable to the total amount of observations within that variable is givin in the % column."
+)
 ```
 
 ```{r binom-test, include=FALSE}
@@ -200,7 +276,10 @@ Of note is that we have slightly, but not significantly (Exact binomial test p =
 Next we will check the data for individuals. All individuals should have two measures, one for the 'before light' phase and one for the 'after light' phase. 
 
 ```{r data-checking2, echo=FALSE}
-kable(describe_all_cat(full.data) %>% filter(Variable == "id"), caption = "ID data check table caption")
+kable(describe_all_cat(full.data) %>%
+  filter(Variable == "id"),
+caption = "ID data check table caption"
+)
 ```
 
 ***
@@ -210,18 +289,36 @@ kable(describe_all_cat(full.data) %>% filter(Variable == "id"), caption = "ID da
 Since we used automated tracking we want to make sure that there are minimal tracking errors. We measured the time a guppy was on either the left side or right side of the tank so we can use this to check for any missing data. Since trials lasted 3 minutes these measures should add up to around 180. 
 
 ```{r data-checking3, echo=FALSE, message=FALSE}
-kable(full.data %>% group_by(id, light.status) %>% summarise(total.time) %>% arrange(total.time), caption = "Checking tracking data errors")
+kable(full.data %>%
+  group_by(id, light.status) %>%
+  summarise(total.time) %>%
+  arrange(total.time),
+caption = "Checking tracking data errors"
+)
 ```
 
 ***
 
 ## Models
 
-We analysed the data using linear mixed effect and generalized linear mixed effect models with the `lmer()` and `glmer()` functions from `lme4` package. P-values and effective degrees of freedom were obtained using the `lmerTest` package. Model residuals were checked they met distributional assumptions with the `DHARMa` package, you can click the ‘See Model Residuals’ button below the model formulas to see the residual diagnostic plots produced by `DHARMa` for that particular model.
+We analysed the data using linear mixed effect and generalized linear mixed
+effect models with the `lmer()` and `glmer()` functions from `lme4` package.
+P-values and effective degrees of freedom were obtained using the `lmerTest`
+package. Model residuals were checked they met distributional assumptions with
+the `DHARMa` package, you can click the ‘See Model Residuals’ button below the
+model formulas to see the residual diagnostic plots produced by `DHARMa` for
+that particular model.
 
 ### Model 1 - Time on the rewarded side
 
-To determine whether individuals increase their time spent on the side of the tank the light shone from, we fit a linear mixed effects model with fixed effect of light status (before or after) as well as a random effect of individual id. Our response variable, 'rewarding side preference', is the amount of time a guppy spent on the side which the light shone from subtracted by the time spent on the other side of the tank. This model asks whether the preference for the rewarding side of the tank changed between baseline and test and whether this differs with rewarded object colour. 
+To determine whether individuals increase their time spent on the side of the
+tank the light shone from, we fit a linear mixed effects model with fixed effect
+of light status (before or after) as well as a random effect of individual id.
+Our response variable, 'rewarding side preference', is the amount of time a
+guppy spent on the side which the light shone from subtracted by the time spent
+on the other side of the tank. This model asks whether the preference for the
+rewarding side of the tank changed between baseline and test and whether this
+differs with rewarded object colour.
 
 ```{r main-model}
 time.model <-
@@ -248,7 +345,7 @@ table.row.name.vec <- c("Intercept", "Light status")
 tidy_time.model <- broom.mixed::tidy(time.model)
 
 # Changing tibble header names
-tidy_time.model <- rename(tidy_time.model, "Factor" = term, "Estimate" = estimate, "Std. Error" = std.error, "T statistic" = statistic, "P value" = p.value)
+tidy_time.model <- rename_tidy_lme4_cols(tidy_time.model)
 
 # Changing tibble row names
 tidy_time.model[1:2, 3] <- table.row.name.vec
@@ -259,7 +356,11 @@ tidy_time.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-main-model-results, echo=FALSE}
-knitr::kable(tidy_time.model[1:2, ] %>% dplyr::select(-group, -effect) %>% mutate_if(is.numeric, round, digits = 3), caption = "Time model table caption")
+knitr::kable(tidy_time.model[1:2, ] %>%
+  dplyr::select(-group, -effect) %>%
+  mutate_if(is.numeric, round, digits = 3),
+caption = "Time model table caption"
+)
 ```
 
 There is a non-significant effect of light status (p = 0.276). Guppies non-significantly increase their preference for the side with the light after the light has shone by 26.6 seconds. 
@@ -290,7 +391,12 @@ time.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = interaction(id)), alpha = 0.2) +
   scale_x_discrete(labels = testing.data.x.axis.labels) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1) +
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  ) +
   geom_hline(yintercept = -5.92, linetype = "dashed", alpha = 0.4)
 
 time.plot
@@ -300,7 +406,18 @@ time.plot
 
 ### Model 2 - Latency to the rewarded side
 
-To determine whether individuals increase the speed at which they come within two body lengths of the rewarded feeder relative to the unrewarded feeder after the light turns on we fit a linear mixed effects model. Our response variable `latency.difference` is the latency to approach the unrewarded feeder subtracted by the latency to approach the rewarded feeder. Positive values indicate that the rewarded feeder was approached quicker than the unrewarded feeder. A value of 0 would indicate both feeders were reached at the same time (in this case this means both feeders were never approached and thus both values are given a max score of 180 as it is impossible for guppies to be in two places at once). The fixed effect is the light status which is either 'before the light turns on' or 'after the light turns on'. We additionally fit a random effect of individual id to account for repeated measures. 
+To determine whether individuals increase the speed at which they come within
+two body lengths of the rewarded feeder relative to the unrewarded feeder after
+the light turns on we fit a linear mixed effects model. Our response variable
+`latency.difference` is the latency to approach the unrewarded feeder subtracted
+by the latency to approach the rewarded feeder. Positive values indicate that
+the rewarded feeder was approached quicker than the unrewarded feeder. A value
+of 0 would indicate both feeders were reached at the same time (in this case
+this means both feeders were never approached and thus both values are given a
+max score of 180 as it is impossible for guppies to be in two places at once).
+The fixed effect is the light status which is either 'before the light turns on'
+or 'after the light turns on'. We additionally fit a random effect of individual
+id to account for repeated measures.
 
 ```{r latency-model}
 latency.model <-
@@ -323,7 +440,7 @@ plot(simulationOutput)
 tidy_latency.model <- broom.mixed::tidy(latency.model)
 
 # Changing tibble header names
-tidy_latency.model <- rename(tidy_latency.model, "Factor" = term, "Estimate" = estimate, "Std. Error" = std.error, "T statistic" = statistic, "P value" = p.value)
+tidy_latency.model <- rename_tidy_lme4_cols(tidy_latency.model)
 
 # Changing tibble row names
 tidy_latency.model[1:2, 3] <- table.row.name.vec
@@ -334,7 +451,11 @@ tidy_latency.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-latency-model-results, echo=FALSE}
-knitr::kable(tidy_latency.model[1:2, ] %>% dplyr::select(-group, -effect) %>% mutate_if(is.numeric, round, digits = 3), caption = "Latency model table caption")
+knitr::kable(tidy_latency.model[1:2, ] %>%
+  dplyr::select(-group, -effect) %>%
+  mutate_if(is.numeric, round, digits = 3),
+caption = "Latency model table caption"
+)
 ```
 
 Results go here
@@ -366,7 +487,12 @@ latency.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = id), alpha = 0.2) +
   scale_x_discrete(labels = testing.data.x.axis.labels) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1) +
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  ) +
   geom_hline(yintercept = -9.94, linetype = "dashed", alpha = 0.5)
 
 latency.plot
@@ -376,12 +502,19 @@ latency.plot
 
 ### Model 3 - Visits to the rewarded feeder
 
-To determine whether individual increase the frequency with which they come within two body lengths of the rewarded feder, we fit a binomial generalized linear mixed effects model. Our response variable, denoted by `cbind(rewarding.feeder.visits,unrewarding.feeder.visits)` is the proportion of visits to the rewarded feeder. This model asks whether the proportion of visits to the rewarded feeder differs between light phases. We fit a random effect of individual id to account for repeated measures. 
+To determine whether individual increase the frequency with which they come
+within two body lengths of the rewarded feder, we fit a binomial generalized
+linear mixed effects model. Our response variable, denoted by
+`cbind(rewarding.feeder.visits,unrewarding.feeder.visits)` is the proportion of
+visits to the rewarded feeder. This model asks whether the proportion of visits
+to the rewarded feeder differs between light phases. We fit a random effect of
+individual id to account for repeated measures.
 
 ```{r visits-model}
 visits.model <-
   glmer(cbind(rewarding.feeder.visits, unrewarding.feeder.visits) ~ light.status + (1 | id),
-    data = full.data, family = "binomial"
+    data = full.data,
+    family = "binomial"
   )
 ```
 
@@ -401,7 +534,7 @@ table.row.name.vec <- c("Intercept", "Light status")
 tidy_visits.model <- broom.mixed::tidy(visits.model)
 
 # Changing tibble header names
-tidy_visits.model <- rename(tidy_visits.model, "Factor" = term, "Estimate" = estimate, "Std. Error" = std.error, "T statistic" = statistic, "P value" = p.value)
+tidy_visits.model <- rename_tidy_lme4_cols(tidy_visits.model)
 
 # Changing tibble row names
 tidy_visits.model[1:2, 3] <- table.row.name.vec
@@ -412,10 +545,17 @@ tidy_visits.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-visits-model-results, echo=FALSE}
-knitr::kable(tidy_visits.model[1:2, ] %>% dplyr::select(-group, -effect) %>% mutate_if(is.numeric, round, digits = 3), caption = "Visits model table caption")
+knitr::kable(tidy_visits.model[1:2, ] %>%
+  dplyr::select(-group, -effect) %>%
+  mutate_if(is.numeric, round, digits = 3),
+caption = "Visits model table caption"
+)
 ```
 
-There is a non-significant increase in the proportion of visits to the rewarded feeder after the light turns on. Guppies go from making 47% of their visits to the rewarded feeder before the light shines to making 57% of their visits being to the rewarded feeder after the light shines, an increase of 10%. 
+There is a non-significant increase in the proportion of visits to the rewarded
+feeder after the light turns on. Guppies go from making 47% of their visits to
+the rewarded feeder before the light shines to making 57% of their visits being
+to the rewarded feeder after the light shines, an increase of 10%.
 
 </br>
 
@@ -455,9 +595,13 @@ visits.plot
 
 ## Main findings
 
-1) Guppies non-significantly increase the amount of time they spend on the side of the tank where the light shone (Figure 4A)
-2) Guppies non-significantly increase the speed at which they visit the rewarded feeder over the unrewarded feeder after the light shines (Figure 4B)
-3) Guppies non-significantly increase their proportion of visits to the rewarded feeder after the light shines (Figure 4C)
+1)  Guppies non-significantly increase the amount of time they spend on the side
+    of the tank where the light shone (Figure 4A)
+2)  Guppies non-significantly increase the speed at which they visit the
+    rewarded feeder over the unrewarded feeder after the light shines
+    (Figure 4B)
+3)  Guppies non-significantly increase their proportion of visits to the
+    rewarded feeder after the light shines (Figure 4C)
 
 ```{r full-3-panel-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Data are means ± SE. Dashed lines represent mean values for the pre-light baseline of the behaviour being displayed. Squares represent pre-light baselines and circles represent post-light measures. (A) Plot for rewarding side preference in seconds (B) Plot for rewarding feeder latency bias (C) Plot for proportion of visits to the rewarding feeder", fig.id="full-3-panel-plot"}
 library(patchwork)
@@ -495,28 +639,66 @@ visits.plot <- visits.plot + theme(
   )
 
 # Saving plot to images directory for manuscript
-ggsave(filename = 'main-result-plot.png', path = 'images/', device='png', dpi=300)
+ggsave(
+  filename = "main-result-plot.png",
+  path = "images/",
+  device = "png",
+  dpi = 300
+)
 ```
 
 
-We see that while the effect of the light turning is not significant for any one preference measure, they all have an effect size that is in the direction consistent with the hypothesis that guppies can learn a food-light association in the automated chamber.  
+We see that while the effect of the light turning is not significant for any one
+preference measure, they all have an effect size that is in the direction
+consistent with the hypothesis that guppies can learn a food-light association
+in the automated chamber.
 
-Our sample of guppies has a high amount of variation leading to estimates with wide confidence intervals. Moreover, our sample is relatively small so the decrease in estimate precision due to sampling error is amplified. There could be several reasons for this variation. Given that we did not explicitly quantify performance during training it may be that guppies that did not perform any of the behaviours suggesting learning of the association did not feed as much as guppies which did, leading to a difference in performance on the test trial. If we assume guppies did receive similar reinforcement, there may still be variation due to individual differences in the expression of learned behaviour. 
+Our sample of guppies has a high amount of variation leading to estimates with
+wide confidence intervals. Moreover, our sample is relatively small so the
+decrease in estimate precision due to sampling error is amplified. There could
+be several reasons for this variation. Given that we did not explicitly quantify
+performance during training it may be that guppies that did not perform any of
+the behaviours suggesting learning of the association did not feed as much as
+guppies which did, leading to a difference in performance on the test trial. If
+we assume guppies did receive similar reinforcement, there may still be
+variation due to individual differences in the expression of learned behaviour.
 
-Individual guppies may express learning in different manners. Some may choose to spend more time on the side with the feeder while others may choose to make more visits to the feeder. In this case, the strongest and most common responses are more likely to produce statistically significant estimates as they will have less variance. Latency we might expect to be a particularly noisy measure because it depends on where an individual was in the tank when the light came on. By chance, individuals may have been further away or closer to the feeder when the light came on which could produce additional variation on the latency metric. The low precision on the estimate of the effect of light status on time spent on the rewarding side of the tank may be due to side biases. While non-significant, guppies that had the light shine on the right side of the tank increased their preference for the right side of the tank more than the guppies that had the light shine on the left side of the tank increased their preference for the left side of the tank. Problematically this could be an artefact of sample size—there were nearly double the guppies for which the light shone on the right side of the tank versus the left (11 on the right vs 6 on the left). 
+Individual guppies may express learning in different manners. Some may choose to
+spend more time on the side with the feeder while others may choose to make more
+visits to the feeder. In this case, the strongest and most common responses are
+more likely to produce statistically significant estimates as they will have
+less variance. Latency we might expect to be a particularly noisy measure
+because it depends on where an individual was in the tank when the light came
+on. By chance, individuals may have been further away or closer to the feeder
+when the light came on which could produce additional variation on the latency
+metric. The low precision on the estimate of the effect of light status on time
+spent on the rewarding side of the tank may be due to side biases. While
+non-significant, guppies that had the light shine on the right side of the tank
+increased their preference for the right side of the tank more than the guppies
+that had the light shine on the left side of the tank increased their preference
+for the left side of the tank. Problematically this could be an artefact of
+sample size—there were nearly double the guppies for which the light shone on
+the right side of the tank versus the left (11 on the right vs 6 on the left).
 
 
 *** 
 
 ## Follow up data exploration
 
-Following the results for our *a priori* hypotheses we conducted some post-hoc explorations into the data which are detailed in the sections below. 
+Following the results for our *a priori* hypotheses we conducted some post-hoc
+explorations into the data which are detailed in the sections below.
 
-### Side bias 
+### Side bias
 
-From Simon: *"I'd suggest also calculating time on left - right, and plotting against side illuminated - this will help to illustrate any side bias"*.
+From Simon: *"I'd suggest also calculating time on left - right, and plotting
+against side illuminated - this will help to illustrate any side bias"*.
 
-There is not a statistically clear side bias either way. For the 'light on the left' guppies there appears to be a slight bias but this may be an artefact of sample size (the confidence interval around the mean is very wide), there are 6 guppies for which the light shone on the left while there are almost double the guppies for which the light shone on the right (11 guppies). Investigating this in a model reveals no significant effects. 
+There is not a statistically clear side bias either way. For the 'light on the
+left' guppies there appears to be a slight bias but this may be an artefact of
+sample size (the confidence interval around the mean is very wide), there are 6
+guppies for which the light shone on the left while there are almost double the
+guppies for which the light shone on the right (11 guppies). Investigating this
+in a model reveals no significant effects.
 
 ```{r side-bias-plot, echo=FALSE, message=FALSE}
 facet.labels <- c("Light on left", "Light on right")
@@ -537,7 +719,10 @@ ggplot(
   geom_point() +
   facet_wrap(~light.side, labeller = labeller(light.side = facet.labels)) +
   stat_summary(geom = "point", fun = "mean", size = 4) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1) +
+  stat_summary(geom = "errorbar", 
+               fun.data = "mean_se", 
+               position = position_dodge(width = 0), 
+               width = 0.1) +
   geom_line(aes(group = id), color = "grey", alpha = 0.3) +
   geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.3) +
   ylab("Right side bias") +
@@ -550,14 +735,23 @@ ggplot(
   scale_x_discrete(labels = testing.data.x.axis.labels)
 
 # Saving plot to images directory for manuscript
-ggsave(filename = 'side-bias-plot.png', path = 'images/', device='png', dpi=300)
+ggsave(
+  filename = "side-bias-plot.png",
+  path = "images/",
+  device = "png",
+  dpi = 300
+)
 ```
 
 ### Time bins
 
-From Simon: *One possibility is that an initial preference is wiped out once fish discover no food. So you could look at 1st minute or whatever time period seems sensible*
+From Simon: *"One possibility is that an initial preference is wiped out once
+fish discover no food. So you could look at 1st minute or whatever time period
+seems sensible"*
 
-Behaviour might be structured temporally so we wanted to see whether there were differences in behaviour that were apparent by binning the data into 1 minute bins.
+Behaviour might be structured temporally so we wanted to see whether there were
+differences in behaviour that were apparent by binning the data into 1 minute
+bins.
 
 ```{r time-bin-data-prep, echo=FALSE}
 # Reading in data
@@ -567,94 +761,135 @@ time.bin.data <- read.csv("data/learning-chamber-time-bins-data.csv")
 time.bin.data$minute <- as.factor(time.bin.data$minute)
 
 # Creating time at both feeders variable
-time.bin.data <- time.bin.data %>% mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
+time.bin.data <- time.bin.data %>%
+  mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
 
 # Removing NAs (1 fish where light didn't go off)
 
-time.bin.data <- time.bin.data %>% drop_na()
+time.bin.data <- time.bin.data %>%
+  drop_na()
 
 # Creating rewarding side time variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.side.time = (case_when(
-  light.side == "left" ~ (left.side.time),
-  light.side == "right" ~ (right.side.time)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    rewarding.side.time =
+      case_when(
+        light.side == "left" ~ (left.side.time),
+        light.side == "right" ~ (right.side.time)
+      )
+  )
 
 # Creating unrewarding side time variable
 
-time.bin.data <- time.bin.data %>% mutate(unrewarding.side.time = (case_when(
-  light.side == "left" ~ (right.side.time),
-  light.side == "right" ~ (left.side.time)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    unrewarding.side.time =
+      case_when(
+        light.side == "left" ~ (right.side.time),
+        light.side == "right" ~ (left.side.time)
+      )
+  )
 
 # Creating rewarding side preference variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
+time.bin.data <- time.bin.data %>%
+  mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
 
 
 # Creating rewarding side latency variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.side.latency = (case_when(
-  light.side == "left" ~ (left.side.latency),
-  light.side == "right" ~ (right.side.latency)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    rewarding.side.latency =
+      case_when(
+        light.side == "left" ~ (left.side.latency),
+        light.side == "right" ~ (right.side.latency)
+      )
+  )
 
 
 # Creating rewarding feeder time variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.feeder.time = (case_when(
-  light.side == "left" ~ (left.feeder.side.time),
-  light.side == "right" ~ (right.feeder.side.time)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    rewarding.feeder.time =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.time),
+        light.side == "right" ~ (right.feeder.side.time)
+      )
+  )
 
 # Creating unrewarding feeder time variable
 
-time.bin.data <- time.bin.data %>% mutate(unrewarding.feeder.time = (case_when(
-  light.side == "left" ~ (right.feeder.side.time),
-  light.side == "right" ~ (left.feeder.side.time)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    unrewarding.feeder.time =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.time),
+        light.side == "right" ~ (left.feeder.side.time)
+      )
+  )
 
 # Creating rewarding feeder preference variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
+time.bin.data <- time.bin.data %>%
+  mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
 
 # Creating rewarding feeder visits variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.feeder.visits = (case_when(
-  light.side == "left" ~ (left.feeder.side.visits),
-  light.side == "right" ~ (right.feeder.side.visits)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    rewarding.feeder.visits =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.visits),
+        light.side == "right" ~ (right.feeder.side.visits)
+      )
+  )
 
 # Creating unrewarding feeder visits variable
 
-time.bin.data <- time.bin.data %>% mutate(unrewarding.feeder.visits = (case_when(
-  light.side == "left" ~ (right.feeder.side.visits),
-  light.side == "right" ~ (left.feeder.side.visits)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    unrewarding.feeder.visits =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.visits),
+        light.side == "right" ~ (left.feeder.side.visits)
+      )
+  )
 
 
 # Creating rewarding feeder latency variable
 
-time.bin.data <- time.bin.data %>% mutate(rewarding.feeder.latency = (case_when(
-  light.side == "left" ~ (left.feeder.side.latency),
-  light.side == "right" ~ (right.feeder.side.latency)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    rewarding.feeder.latency =
+      case_when(
+        light.side == "left" ~ (left.feeder.side.latency),
+        light.side == "right" ~ (right.feeder.side.latency)
+      )
+  )
 
 # Creating unrewarding feeder latency variable
 
-time.bin.data <- time.bin.data %>% mutate(unrewarding.feeder.latency = (case_when(
-  light.side == "left" ~ (right.feeder.side.latency),
-  light.side == "right" ~ (left.feeder.side.latency)
-)))
+time.bin.data <- time.bin.data %>%
+  mutate(
+    unrewarding.feeder.latency =
+      case_when(
+        light.side == "left" ~ (right.feeder.side.latency),
+        light.side == "right" ~ (left.feeder.side.latency)
+      )
+  )
 
 # Creating Change in rewarding feeder latency variable
 
-time.bin.data <- time.bin.data %>% mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
+time.bin.data <- time.bin.data %>%
+  mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
 
 # Creating total time variable for data check purposes
 
-time.bin.data <- time.bin.data %>% mutate(total.time = left.side.time + right.side.time)
-
+time.bin.data <- time.bin.data %>%
+  mutate(total.time = left.side.time + right.side.time)
 ```
 
 
@@ -680,7 +915,12 @@ time.bin.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = interaction(id, light.status)), alpha = 0.2) +
   geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1)
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  )
 
 time.bin.plot
 ```
@@ -707,7 +947,12 @@ feeder.bin.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = interaction(id, light.status)), alpha = 0.2) +
   geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1)
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  )
 
 feeder.bin.plot
 ```
@@ -734,7 +979,12 @@ feeder.latency.bin.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5) +
   geom_line(aes(group = interaction(id, light.status)), alpha = 0.2) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1)
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  )
 
 feeder.latency.bin.plot
 ```
@@ -761,16 +1011,17 @@ feeder.visits.bin.plot <- ggplot(
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = interaction(id, light.status)), alpha = 0.2) +
   geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
-  stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1)
+  stat_summary(
+    geom = "errorbar",
+    fun.data = "mean_se",
+    position = position_dodge(width = 0),
+    width = 0.1
+  )
 
 feeder.visits.bin.plot
 ```
 
-
-
 ***
-
-</br>
 
 ## Tools used and References
 
