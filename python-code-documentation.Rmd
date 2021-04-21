@@ -37,17 +37,23 @@ Here we provide the Python code required to operate the automated learning chamb
 
 There are 6 Python packages that are necessary to import for this project.
 
-`time` is imported in order to use the `sleep()` function to pause between certain script commans. 
+`time` is imported in order to use the `sleep()` function to pause between
+certain script commans.
 
-`picamera` is imported so that we can use functions which allow us to control the Raspberry Pi camera.
+`picamera` is imported so that we can use functions which allow us to control
+the Raspberry Pi camera.
 
-`datetime` is imported so that we can display date and time stamps on the experimental footage.
+`datetime` is imported so that we can display date and time stamps on the
+experimental footage.
 
-`pigpio` is imported for access to functions that allow us to control the LED lights
+`pigpio` is imported for access to functions that allow us to control the LED
+lights
 
-`RPi.GPIO` is imported for access to functions that allow us to control the Raspberry Pi GPIO pings
+`RPi.GPIO` is imported for access to functions that allow us to control the
+Raspberry Pi GPIO pings
 
-`random`is imported to create random numbers to randomly decide which side of the tank will have the light shine and food delivered. 
+`random`is imported to create random numbers to randomly decide which side of
+the tank will have the light shine and food delivered.
 
 ```{r add-reticulate, include=FALSE}
 library(reticulate)
@@ -115,9 +121,13 @@ def feeder_activate(rand_number):
 
 ## Camera settings
 
-Here we will configure the resolution and image quality of the recording from the Raspberry Pi camera. 
+Here we will configure the resolution and image quality of the recording from
+the Raspberry Pi camera.
 
-We start with the line `print("Welcome to the automated chamber!")` to indicate that the script has started. Next, `camera = PiCamera()` initializes a PiCamera instance and sets it equal to `camera`. We then set the resolution, rotation, and ISO of the camera. 
+We start with the line `print("Welcome to the automated chamber!")` to indicate
+that the script has started. Next, `camera = PiCamera()` initializes a PiCamera
+instance and sets it equal to `camera`. We then set the resolution, rotation,
+and ISO of the camera.
 
 ```{python, eval=FALSE}
 print("Welcome to the automated chamber!")
@@ -146,7 +156,11 @@ print('Date and time: ', dt_string)
 
 ### Start recording first 3 minutes
 
-First we start recording from the Raspberry Pi Camera by calling the `start_recording` function from the PiCamera library. For documentation purposes we will want to annotate the top of the video frame with the date time and we want this to update every second so we run a `for` loop which will annotate the camera background with the current date andn time every second.
+First we start recording from the Raspberry Pi Camera by calling the
+`start_recording` function from the PiCamera library. For documentation purposes
+we will want to annotate the top of the video frame with the date time and we
+want this to update every second so we run a `for` loop which will annotate the
+camera background with the current date andn time every second.
 
 ```{python, eval=FALSE}
 camera.start_recording(dt_string)
@@ -159,7 +173,11 @@ for x in range(0, 180):
 
 ### Activating lights
 
-Next we trigger the lights and then the feeder. First we chose a random number, either 0 or 1 using the `randrange` function so that we can randomly decide whether the left or right feeder and light will be activated for this session. Depending on the value we activate either the left or right light and then wait for 5 seconds.  
+Next we trigger the lights and then the feeder. First we chose a random number,
+either 0 or 1 using the `randrange` function so that we can randomly decide
+whether the left or right feeder and light will be activated for this session.
+Depending on the value we activate either the left or right light and then wait
+for 5 seconds.
 
 ```{python, eval=FALSE}
 # trigger lights 5 seconds BEFORE feeder
@@ -195,7 +213,8 @@ pi.stop()
 
 ### Stop recordinng
 
-We will continue to anontate the video frame with the datetime for the last 3 minutes annd then stop recording. 
+We will continue to anontate the video frame with the datetime for the last 3
+minutes annd then stop recording. 
 
 
 ```{python, eval = FALSE}
