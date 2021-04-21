@@ -30,14 +30,17 @@ knit: (function(input, ...) {
     <a href="index.html" style = "float: right;">Home</a>
 </div>
 
-<p class="author-name">Beatriz R. Quineche<span class="affil-mark">1*</span>, M. Wyatt Toure<span class="affil-mark">1</span>, Simon M. Reader<span class="affil-mark">1</span></p>
+<p class="author-name">Beatriz R. Quineche<span class="affil-mark">1*</span>, 
+M. Wyatt Toure<span class="affil-mark">1</span>, Simon M. Reader<span class="affil-mark">1</span></p>
 
-<p class="author-affil"><span class="affil-mark">1</span>McGill University, Department of Biology, 1205 Docteur Penfield, Montreal, Quebec H3A 1B1, Canada</p>
-<p><span class="affil-mark">*</span>Corresponding Author: <br>Beatriz R. Quineche<br> e-mail: <br></p>
+<p class="author-affil"><span class="affil-mark">1</span>McGill University, 
+Department of Biology, 1205 Docteur Penfield, Montreal, Quebec H3A 1B1, Canada</p>
+<p><span class="affil-mark">*</span>Project lead</p>
 
 
 Date of last update: `r format(Sys.Date(), '%b %d %Y')`
 
+*** 
 
 ```{r library-prep, include=FALSE}
 library(lme4)
@@ -60,21 +63,21 @@ source("R/rename-lme4-model.R")
 
 ```{r data-prep, include=FALSE}
 # Reading in data
-full.data <- read.csv("data/beatriz-master-data_one.csv")
+full_data <- read.csv("data/beatriz-master-data_one.csv")
 
 # Setting batch to a factor
-full.data$batch <- as.factor(full.data$batch)
+full_data$batch <- as.factor(full_data$batch)
 
 # Creating time at both feeders variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(time.both.feeders = (right.feeder.side.time + left.feeder.side.time))
 
 # Removing NAs (1 fish where light didn't go off)
-full.data <- full.data %>%
+full_data <- full_data %>%
   drop_na()
 
 # Creating rewarding side time variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     rewarding.side.time =
       case_when(
@@ -84,7 +87,7 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding side time variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     unrewarding.side.time =
       case_when(
@@ -94,12 +97,12 @@ full.data <- full.data %>%
   )
 
 # Creating rewarding side preference variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(rewarding.side.preference = rewarding.side.time - unrewarding.side.time)
 
 
 # Creating rewarding side latency variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     rewarding.side.latency =
       case_when(
@@ -110,7 +113,7 @@ full.data <- full.data %>%
 
 
 # Creating rewarding feeder time variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     rewarding.feeder.time =
       case_when(
@@ -120,7 +123,7 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder time variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     unrewarding.feeder.time =
       case_when(
@@ -130,11 +133,11 @@ full.data <- full.data %>%
   )
 
 # Creating rewarding feeder preference variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(rewarding.feeder.preference = rewarding.feeder.time - unrewarding.feeder.time)
 
 # Creating rewarding feeder visits variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     rewarding.feeder.visits =
       case_when(
@@ -144,7 +147,7 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder visits variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     unrewarding.feeder.visits =
       case_when(
@@ -155,7 +158,7 @@ full.data <- full.data %>%
 
 
 # Creating rewarding feeder latency variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     rewarding.feeder.latency =
       case_when(
@@ -165,7 +168,7 @@ full.data <- full.data %>%
   )
 
 # Creating unrewarding feeder latency variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(
     unrewarding.feeder.latency =
       case_when(
@@ -175,20 +178,17 @@ full.data <- full.data %>%
   )
 
 # Creating Change in rewarding feeder latency variable
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(latency.difference = unrewarding.feeder.latency - rewarding.feeder.latency)
 
 # Creating total time variable for data check purposes
-full.data <- full.data %>%
+full_data <- full_data %>%
   mutate(total.time = left.side.time + right.side.time)
 
 # Setting plot colours
 gray <- "#696667"
 green <- "#59a14f"
 ```
-
-
-*** 
 
 ## Brief Overview
 
@@ -208,11 +208,12 @@ a tank supplemented with raspberry pi controlled lights and feeders as well as a
 raspberry pi camera. Guppies were given a simple classical conditioning task.
 Four times a day for three consecutive days a light would briefly illuminate for
 five seconds after which the light turned off and food was delivered from a
-servo-powered feeder that was hung above the tank (see [Apparatus Design](apparatus-setup.html)). This resulted in a total of 12 reinforced trials
-being conducted in the span of three days. On the fifth day guppies were food
-deprived to increase food motivation and thus increase the likelihood of
-eliciting a demonstrable behavioural effect for the probe trial which occurred
-on the sixth day.
+servo-powered feeder that was hung above the tank 
+(see [Apparatus Design](apparatus-setup.html)). 
+This resulted in a total of 12 reinforced trials being conducted in the span of 
+three days. On the fifth day guppies were food deprived to increase food 
+motivation and thus increase the likelihood of eliciting a demonstrable 
+behavioural effect for the probe trial which occurred on the sixth day.
 
 The association expected to be formed was that the side of the tank that
 produces a light predicts which feeder will have food delivered to it. Guppies
@@ -238,9 +239,13 @@ table.
 
 ```{r data-checking, echo=FALSE}
 # Checking the data
-kable(describe_all_cat(full.data) %>%
+kable(describe_all_cat(full_data) %>%
   filter(Variable != "id"),
-caption = "Summary of the frequency of observations for all categorical variables. The levels of each variable are given in the group column and the frequency of observations within each level are given in the frequency column. The relative contribution of a particular level of a variable to the total amount of observations within that variable is givin in the % column."
+caption = "Summary of the frequency of observations for all categorical variables. 
+The levels of each variable are given in the group column and the frequency of 
+observations within each level are given in the frequency column. The relative 
+contribution of a particular level of a variable to the total amount of 
+observations within that variable is givin in the % column."
 )
 ```
 
@@ -263,7 +268,7 @@ Next we will check the data for individuals. All individuals should have two
 measures, one for the 'before light' phase and one for the 'after light' phase. 
 
 ```{r data-checking2, echo=FALSE}
-kable(describe_all_cat(full.data) %>%
+kable(describe_all_cat(full_data) %>%
   filter(Variable == "id"),
 caption = "ID data check table caption"
 )
@@ -279,7 +284,7 @@ right side of the tank so we can use this to check for any missing data. Since
 trials lasted 3 minutes these measures should add up to around 180.
 
 ```{r data-checking3, echo=FALSE, message=FALSE}
-kable(full.data %>%
+kable(full_data %>%
   group_by(id, light.status) %>%
   summarise(total.time) %>%
   arrange(total.time),
@@ -311,9 +316,9 @@ rewarding side of the tank changed between baseline and test and whether this
 differs with rewarded object colour.
 
 ```{r main-model}
-time.model <-
+time_model <-
   lmer(rewarding.side.preference ~ light.status + (1 | id),
-    data = full.data
+    data = full_data
   )
 ```
 
@@ -321,7 +326,7 @@ time.model <-
 <div id="Model1" class="collapse">  
 
 ```{r model-1-residuals, echo=FALSE}
-simulationOutput <- simulateResiduals(fittedModel = time.model)
+simulationOutput <- simulateResiduals(fittedModel = time_model)
 plot(simulationOutput)
 ```
 
@@ -329,16 +334,16 @@ plot(simulationOutput)
 
 ```{r tidy-main-model, echo=FALSE}
 # Setting table row names
-table.row.name.vec <- c("Intercept", "Light status")
+table_row_name_vec <- c("Intercept", "Light status")
 
 # Converting data frame to tibble
-tidy_time.model <- broom.mixed::tidy(time.model)
+tidy_time_model <- broom.mixed::tidy(time_model)
 
 # Changing tibble header names
-tidy_time.model <- rename_tidy_lme4_cols(tidy_time.model)
+tidy_time_model <- rename_tidy_lme4_cols(tidy_time_model)
 
 # Changing tibble row names
-tidy_time.model[1:2, 3] <- table.row.name.vec
+tidy_time_model[1:2, 3] <- table_row_name_vec
 ```
 
 </br>
@@ -346,23 +351,28 @@ tidy_time.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-main-model-results, echo=FALSE}
-knitr::kable(tidy_time.model[1:2, ] %>%
+knitr::kable(tidy_time_model[1:2, ] %>%
   dplyr::select(-group, -effect) %>%
   mutate_if(is.numeric, round, digits = 3),
-caption = "Time model table caption"
+caption = "Summary of a linear mixed effect model (Model 1) estimating the time 
+spent on the side of the tank where light had been activated (model estimates 
+± S.E.) where the fixed effect is the factor light status (‘before the light’ 
+or ‘after the light’) and the random effect of individual id. The effect of 
+light status is non-significant, but the estimate indicates guppies approached 
+the rewarding feeder quicker than the unrewarding feeder after the light came on."
 )
 ```
 
-There is a non-significant effect of light status (p = 0.276). Guppies
+There is a non-significant effect of light status (p = `r tidy_time_model$'P value'[2] %>% round(3)`). Guppies
 non-significantly increase their preference for the side with the light after
-the light has shone by 26.6 seconds. 
+the light has shone by `r tidy_time_model$Estimate[2] %>% round(1)` seconds. 
 
 </br>
 ```{r rewarding-side-pref-plot, echo=FALSE, fig.align='center', fig.cap="Data are means ± SE. Lines connect individuals across light periods. The dashed line represents the value of the pre-light baseline behavioural measure.", fig.id="rewarding-side-pref-plot", message=FALSE, warning=FALSE}
-testing.data.x.axis.labels <- c("Before light", "After light")
+testing_data_x_axis_labels <- c("Before light", "After light")
 
-time.plot <- ggplot(
-  full.data,
+time_plot <- ggplot(
+  full_data,
   aes(
     x = light.status,
     y = rewarding.side.preference,
@@ -382,7 +392,7 @@ time.plot <- ggplot(
   ) +
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = interaction(id)), alpha = 0.2) +
-  scale_x_discrete(labels = testing.data.x.axis.labels) +
+  scale_x_discrete(labels = testing_data_x_axis_labels) +
   stat_summary(
     geom = "errorbar",
     fun.data = "mean_se",
@@ -391,7 +401,7 @@ time.plot <- ggplot(
   ) +
   geom_hline(yintercept = -5.92, linetype = "dashed", alpha = 0.4)
 
-time.plot
+time_plot
 ```
 
 *** 
@@ -412,9 +422,9 @@ or 'after the light turns on'. We additionally fit a random effect of individual
 id to account for repeated measures.
 
 ```{r latency-model}
-latency.model <-
+latency_model <-
   lmer(latency.difference ~ light.status + (1 | id),
-    data = full.data
+    data = full_data
   )
 ```
 
@@ -422,20 +432,20 @@ latency.model <-
 <div id="Model2" class="collapse">  
 
 ```{r model-2-residuals, echo=FALSE}
-simulationOutput <- simulateResiduals(fittedModel = latency.model)
+simulationOutput <- simulateResiduals(fittedModel = latency_model)
 plot(simulationOutput)
 ```
 
 </div>
 
 ```{r tidy-latency-model, echo=FALSE}
-tidy_latency.model <- broom.mixed::tidy(latency.model)
+tidy_latency_model <- broom.mixed::tidy(latency_model)
 
 # Changing tibble header names
-tidy_latency.model <- rename_tidy_lme4_cols(tidy_latency.model)
+tidy_latency_model <- rename_tidy_lme4_cols(tidy_latency_model)
 
 # Changing tibble row names
-tidy_latency.model[1:2, 3] <- table.row.name.vec
+tidy_latency_model[1:2, 3] <- table_row_name_vec
 ```
 
 </br>
@@ -443,22 +453,30 @@ tidy_latency.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-latency-model-results, echo=FALSE}
-knitr::kable(tidy_latency.model[1:2, ] %>%
+knitr::kable(tidy_latency_model[1:2, ] %>%
   dplyr::select(-group, -effect) %>%
   mutate_if(is.numeric, round, digits = 3),
-caption = "Latency model table caption"
+caption = "Summary of a linear mixed effect model (Model 2) estimating how fast 
+guppies approached the unrewarded feeder for which the light had been activated 
+over the unrewarded feeder with no lights activated (model estimates ± S.E.) 
+where the fixed effect is the factor light status (‘before the light’ or ‘after 
+the light’). The effect of light status is non-significant, but the estimate 
+indicates guppies approached the rewarding feeder quicker than the unrewarding 
+feeder after the light came on."
 )
 ```
 
-Results go here
+After the light came on guppies non-significantly approached the rewarded feeder 
+on average `r tidy_latency_model$Estimate[2] %>% round(1)` seconds faster than 
+the non-rewarded feeder. 
 
 </br>
 
 ```{r rewarding-latency-plot, echo=FALSE, fig.cap="Data are means ± SE Bold line connects means across trials.", fig.id="rewarding-latency-plot", warning=FALSE, message=FALSE, fig.align='center'}
-testing.data.x.axis.labels <- c("Before light", "After light")
+testing_data_x_axis_labels <- c("Before light", "After light")
 
-latency.plot <- ggplot(
-  full.data,
+latency_plot <- ggplot(
+  full_data,
   aes(
     x = light.status,
     y = latency.difference,
@@ -478,7 +496,7 @@ latency.plot <- ggplot(
   ) +
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = id), alpha = 0.2) +
-  scale_x_discrete(labels = testing.data.x.axis.labels) +
+  scale_x_discrete(labels = testing_data_x_axis_labels) +
   stat_summary(
     geom = "errorbar",
     fun.data = "mean_se",
@@ -487,7 +505,7 @@ latency.plot <- ggplot(
   ) +
   geom_hline(yintercept = -9.94, linetype = "dashed", alpha = 0.5)
 
-latency.plot
+latency_plot
 ```
 
 *** 
@@ -503,9 +521,9 @@ to the rewarded feeder differs between light phases. We fit a random effect of
 individual id to account for repeated measures.
 
 ```{r visits-model}
-visits.model <-
+visits_model <-
   glmer(cbind(rewarding.feeder.visits, unrewarding.feeder.visits) ~ light.status + (1 | id),
-    data = full.data,
+    data = full_data,
     family = "binomial"
   )
 ```
@@ -514,22 +532,22 @@ visits.model <-
 <div id="Model3" class="collapse">  
 
 ```{r model-3-residuals, echo=FALSE}
-simulationOutput <- simulateResiduals(fittedModel = visits.model)
+simulationOutput <- simulateResiduals(fittedModel = visits_model)
 plot(simulationOutput)
 ```
 
 </div>
 
 ```{r tidy-visits-model, echo=FALSE}
-table.row.name.vec <- c("Intercept", "Light status")
+table_row_name_vec <- c("Intercept", "Light status")
 
-tidy_visits.model <- broom.mixed::tidy(visits.model)
+tidy_visits_model <- broom.mixed::tidy(visits_model)
 
 # Changing tibble header names
-tidy_visits.model <- rename_tidy_lme4_cols(tidy_visits.model)
+tidy_visits_model <- rename_tidy_lme4_cols(tidy_visits_model)
 
 # Changing tibble row names
-tidy_visits.model[1:2, 3] <- table.row.name.vec
+tidy_visits_model[1:2, 3] <- table_row_name_vec
 ```
 
 </br>
@@ -537,10 +555,16 @@ tidy_visits.model[1:2, 3] <- table.row.name.vec
 ##### Results
 
 ```{r knitr-visits-model-results, echo=FALSE}
-knitr::kable(tidy_visits.model[1:2, ] %>%
+knitr::kable(tidy_visits_model[1:2, ] %>%
   dplyr::select(-group, -effect) %>%
   mutate_if(is.numeric, round, digits = 3),
-caption = "Visits model table caption"
+caption = "Summary of a binomial generalized linear mixed effects model 
+(Model 3) estimating the proportion of visits guppies made to the activated 
+light side’s feeder (model estimates ± S.E.) where the fixed effect is the 
+factor light status (‘before the light’ or ‘after the light’). The effect of 
+light status is non-significant, but the estimate indicates guppies increase 
+their visits to the unrewarding feeder after its corresponding light had been 
+activated."
 )
 ```
 
@@ -553,10 +577,10 @@ to the rewarded feeder after the light shines, an increase of 10%.
 
 
 ```{r rewarding-visits-plot, echo=FALSE, fig.cap="Data are means ± SE Bold line connects means across trials.", fig.id="rewarding-visits-plot", warning=FALSE, message=FALSE, fig.align='center'}
-testing.data.x.axis.labels <- c("Before light", "After light")
+testing_data_x_axis_labels <- c("Before light", "After light")
 
-visits.plot <- ggplot(
-  full.data,
+visits_plot <- ggplot(
+  full_data,
   aes(
     x = light.status,
     y = (rewarding.feeder.visits / (rewarding.feeder.visits + unrewarding.feeder.visits)),
@@ -576,11 +600,11 @@ visits.plot <- ggplot(
   ) +
   scale_color_manual(values = c(gray, green)) +
   geom_line(aes(group = id), alpha = 0.2) +
-  scale_x_discrete(labels = testing.data.x.axis.labels) +
+  scale_x_discrete(labels = testing_data_x_axis_labels) +
   stat_summary(geom = "errorbar", fun.data = "mean_se", position = position_dodge(width = 0), width = 0.1) +
   geom_hline(yintercept = 0.461, linetype = "dashed", alpha = 0.5)
 
-visits.plot
+visits_plot
 ```
 
 *** 
@@ -597,7 +621,7 @@ visits.plot
 
 ```{r full-3-panel-plot, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Data are means ± SE. Dashed lines represent mean values for the pre-light baseline of the behaviour being displayed. Squares represent pre-light baselines and circles represent post-light measures. (A) Plot for rewarding side preference in seconds (B) Plot for rewarding feeder latency bias (C) Plot for proportion of visits to the rewarding feeder", fig.id="full-3-panel-plot"}
 library(patchwork)
-time.plot <- time.plot + theme(
+time_plot <- time_plot + theme(
   legend.position = "none",
   axis.title = element_blank(),
   panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -606,7 +630,7 @@ time.plot <- time.plot + theme(
   axis.ticks.x = element_blank()
 ) + ggtitle("Time (sec)")
 
-latency.plot <- latency.plot + theme(
+latency_plot <- latency_plot + theme(
   legend.position = "none",
   axis.title = element_blank(),
   panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -615,7 +639,7 @@ latency.plot <- latency.plot + theme(
   axis.ticks.x = element_blank()
 ) + ggtitle("Latency (sec)")
 
-visits.plot <- visits.plot + theme(
+visits_plot <- visits_plot + theme(
   legend.position = "none",
   axis.title = element_blank(),
   panel.border = element_rect(colour = "black", fill = NA, size = 1),
@@ -624,7 +648,7 @@ visits.plot <- visits.plot + theme(
   axis.ticks.x = element_blank()
 ) + ggtitle("Visits")
 
-(time.plot | latency.plot | visits.plot) + plot_annotation(tag_levels = "A") &
+(time_plot | latency_plot | visits_plot) + plot_annotation(tag_levels = "A") &
   theme(
     plot.tag.position = c(0, 1),
     plot.tag = element_text(hjust = -3.65, vjust = 3.7)
@@ -697,7 +721,7 @@ facet.labels <- c("Light on left", "Light on right")
 names(facet.labels) <- c("left", "right")
 
 ggplot(
-  full.data,
+  full_data,
   aes(
     x = light.status,
     y = right.side.time - left.side.time,
@@ -724,7 +748,7 @@ ggplot(
     axis.title = element_text(size = 14, face = "bold"),
     plot.title = element_text(size = 16, hjust = 0.5)
   ) +
-  scale_x_discrete(labels = testing.data.x.axis.labels)
+  scale_x_discrete(labels = testing_data_x_axis_labels)
 
 # Saving plot to images directory for manuscript
 ggsave(
